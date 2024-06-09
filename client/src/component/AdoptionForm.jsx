@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button } from "../component/index";
@@ -7,6 +7,28 @@ import dummyImg from "../assets/kanao.jpg";
 
 const AdoptionForm = () => {
   const [formDataList, setFormDataList] = useState([]);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  useEffect(() => {
+    // Example to fetch an image with id 1, you might want to adjust this
+    const fetchImage = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/adoption/image/1",
+          {
+            responseType: "blob",
+          }
+        );
+        const imageBlob = response.data;
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setImageUrl(imageObjectURL);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    fetchImage();
+  }, []);
 
   const initialValue = {
     name: "",
