@@ -16,7 +16,7 @@ const AdoptionForm = () => {
     gender: "",
     type: "",
     description: "",
-    imageFile: undefined,
+    imageFile: null,
   };
 
   const validationSchema = Yup.object({
@@ -34,10 +34,26 @@ const AdoptionForm = () => {
   });
 
   const onSubmit = async (values, { resetForm, setSubmitting }) => {
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("age", values.age);
+    formData.append("breed", values.breed);
+    formData.append("color", values.color);
+    formData.append("gender", values.gender);
+    formData.append("type", values.type);
+    formData.append("description", values.description);
+    formData.append("imageFile", values.imageFile);
+
+    // Calling the API from the server
     try {
       const response = await axios.post(
         "http://localhost:5000/adoption",
-        values
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       console.log("Form Submitted", response.data);
       resetForm();
@@ -69,78 +85,32 @@ const AdoptionForm = () => {
                 className="rounded-full w-[100px] h-[100px] object-contain bg-cover border-2 border-black-text"
               />
             </div>
-            <article className="grid xl:grid-cols-2 md:gap-4 gap-2 p-5 border-pale-blue">
-              <div className="flex flex-col">
-                <Field
-                  className="input"
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Name:"
-                />
-                <ErrorMessage name="name" component="p" className="error" />
-              </div>
 
-              <div className="flex flex-col">
-                <Field
-                  className="input"
-                  type="number"
-                  id="age"
-                  name="age"
-                  placeholder="Age:"
-                />
-                <ErrorMessage name="age" component="p" className="error" />
-              </div>
+            {/* Fields for name, age, breed, color, gender and type */}
+            <article className="grid xl:grid-cols-2 md:gap-4 gap-2 p-5 border-pale-blue">
+              {["name", "age", "breed", "color", "gender", "type"].map(
+                (field) => (
+                  <div className="flex flex-col" key={field}>
+                    <Field
+                      className="input"
+                      type={field === "age" ? "number" : "text"}
+                      id={field}
+                      name={field}
+                      placeholder={`${
+                        field.charAt(0).toUpperCase() + field.slice(1)
+                      }:`}
+                    />
+                    <ErrorMessage
+                      name={field}
+                      component="p"
+                      className="error"
+                    />
+                  </div>
+                )
+              )}
             </article>
 
-            <article className="grid xl:grid-cols-2 md:gap-4 gap-2 p-5 border-pale-blue">
-              <div className="flex flex-col">
-                <Field
-                  className="input"
-                  type="text"
-                  id="breed"
-                  name="breed"
-                  placeholder="Breed:"
-                />
-                <ErrorMessage name="breed" component="p" className="error" />
-              </div>
-
-              <div className="flex flex-col">
-                <Field
-                  className="input"
-                  type="text"
-                  id="color"
-                  name="color"
-                  placeholder="Color:"
-                />
-                <ErrorMessage name="color" component="p" className="error" />
-              </div>
-            </article>
-
-            <article className="grid xl:grid-cols-2 md:gap-4 gap-2 p-5 border-pale-blue">
-              <div className="flex flex-col">
-                <Field
-                  className="input"
-                  type="text"
-                  id="gender"
-                  name="gender"
-                  placeholder="Gender:"
-                />
-                <ErrorMessage name="gender" component="p" className="error" />
-              </div>
-
-              <div className="flex flex-col">
-                <Field
-                  className="input"
-                  type="text"
-                  id="type"
-                  name="type"
-                  placeholder="Type:"
-                />
-                <ErrorMessage name="type" component="p" className="error" />
-              </div>
-            </article>
-
+            {/* Description Field */}
             <div className="p-5">
               <Field
                 className="input h-[100px]"
@@ -156,8 +126,9 @@ const AdoptionForm = () => {
               />
             </div>
 
+            {/* Image Field */}
             <div className="p-5">
-              <Field
+              <input
                 className="input"
                 type="file"
                 id="imageFile"

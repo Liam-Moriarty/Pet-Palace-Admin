@@ -2,6 +2,7 @@ import express from "express";
 import {
   getAdoptions,
   sendAdoptions,
+  upload,
 } from "../controllers/adoptionController.js";
 
 const router = express.Router();
@@ -10,6 +11,6 @@ const router = express.Router();
 router.get("/", getAdoptions);
 
 // For sending documents to the server
-router.post("/", sendAdoptions);
+router.post("/", upload.single("imageFile"), sendAdoptions);
 
 export default router;

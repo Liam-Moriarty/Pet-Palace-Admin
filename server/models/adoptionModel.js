@@ -4,7 +4,6 @@ const adoptionSchema = mongoose.Schema(
   {
     imageFile: {
       type: String,
-      required: true,
     },
     name: {
       type: String,
