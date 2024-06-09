@@ -1,16 +1,10 @@
 import multer from "multer";
-// import path from "path";
-// import { fileURLToPath } from "url";
 import AdoptionDetails from "../models/adoptionModel.js";
-
-// Resolve __dirname for ES modules
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Ensure this directory exists
+    cb(null, "uploads/"); // This is where we stored the images
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
@@ -47,6 +41,7 @@ export const sendAdoptions = async (req, res) => {
       description,
     });
 
+    console.log(req.file);
     res.status(200).json(adoption);
   } catch (error) {
     console.error("Error creating adoption details:", error);
