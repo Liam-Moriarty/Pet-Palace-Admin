@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+
+@layer components {
+  .max-container {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+}
+
+@layer utilities {
+  .padding {
+    @apply sm:px-8 px-4 sm:py-12 py-6;
+  }
+
+  .padding-x {
+    @apply sm:px-16 px-8;
+  }
+
+  .padding-y {
+    @apply sm:py-24 py-12;
+  }
+
+  .padding-l {
+    @apply sm:pl-16 pl-8;
+  }
+
+  .padding-r {
+    @apply sm:pr-16 pr-8;
+  }
+
+  .padding-t {
+    @apply sm:pt-24 pt-12;
+  }
+
+  .padding-b {
+    @apply sm:pb-24 pb-12;
+  }
+
+  .input {
+    @apply dark:bg-pale-blue bg-white-second w-full p-3 text-black-text dark:text-white-primary
+    outline-none text-base font-medium rounded-md placeholder:text-sm placeholder:font-semibold placeholder:font-poppins shadow-md dark:shadow-xl;
+  }
+
+  /* .label {
+    @apply text-base dark:text-white-primary text-black-text font-poppins font-semibold;
+  } */
+
+  .error {
+    @apply ml-1 py-2 text-red-500 font-poppins font-medium text-sm duration-200;
+  }
+}
+/* Scrollbar Design with Compatibility to some browsers */
+
+/* Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust width as needed */
+  background: #222; /* Dark background color */
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #444; /* Black thumb color */
+  border-radius: 6px; /* Add some rounding for aesthetics (optional) */
+}
+
+/* Custom CSS to hide the spinner for number inputs */
+/* For Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
